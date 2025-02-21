@@ -3,9 +3,9 @@ import { cirno } from "./cirno";
 import fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import {
+  type ZodTypeProvider,
   validatorCompiler,
   serializerCompiler,
-  ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { subscribeToEvent } from "./routes/subscribeToEvent";
 import { env } from "./env";
