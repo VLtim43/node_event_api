@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Subscription API
+  description: API for subscribing to an event
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /subscriptions:
+    post:
+      summary: Subscribe to an event
+      description: Endpoint to register a new subscriber for an event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+              required:
+                - name
+                - email
+      responses:
+        "201":
+          description: Subscription successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscriberId:
+                    type: string
+                    nullable: true
+                  message:
+                    type: string
