@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import YAML from "yaml";
 
-export const swaggerDocRoute = async (app: FastifyInstance) => {
+export const swaggerDocsRoute = async (app: FastifyInstance) => {
   app.get("/docs", async (_, reply) => {
     try {
       const yamlPath = path.join(__dirname, "../docs/swagger.yaml");

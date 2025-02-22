@@ -1,5 +1,6 @@
-import { cirno } from "./cirno";
+import { env } from "./env";
 
+import { cirno } from "./cirno";
 import fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import {
@@ -8,8 +9,7 @@ import {
   serializerCompiler,
 } from "fastify-type-provider-zod";
 import { subscribeToEventRoute } from "./routes/subscribeToEventRoute";
-import { env } from "./env";
-import { swaggerDocRoute } from "./routes/swaggerDocRoute";
+import { swaggerDocsRoute } from "./routes/swaggerDocsRoute";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -24,7 +24,7 @@ app.listen({ port: env.PORT }).then(() => {
 
 app.register(subscribeToEventRoute);
 
-app.register(swaggerDocRoute);
+app.register(swaggerDocsRoute);
 
 app.get("/cirno", () => {
   return cirno;
