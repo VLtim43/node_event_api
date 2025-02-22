@@ -7,7 +7,7 @@ import {
   validatorCompiler,
   serializerCompiler,
 } from "fastify-type-provider-zod";
-import { subscribeToEvent } from "./routes/subscribeToEvent";
+import { subscribeToEventRoute } from "./routes/subscribeToEventRoute";
 import { env } from "./env";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -17,7 +17,7 @@ app.setValidatorCompiler(validatorCompiler);
 
 app.register(fastifyCors);
 
-app.register(subscribeToEvent);
+app.register(subscribeToEventRoute);
 
 app.listen({ port: env.PORT }).then(() => {
   console.log("Server running ");

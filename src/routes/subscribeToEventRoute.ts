@@ -1,5 +1,6 @@
 import { z as zod } from "zod";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import { subscribeToEvent } from "../functions/subscribeToEvent";
 
 const subscriptionSchema = {
   body: zod.object({
@@ -8,22 +9,24 @@ const subscriptionSchema = {
   }),
   response: {
     201: zod.object({
-      name: zod.string().optional(),
-      email: zod.string().optional(),
+      subscriberId: zod.string().optional(),
       message: zod.string(),
     }),
   },
 };
 
-export const subscribeToEvent: FastifyPluginAsyncZod = async (app) => {
+export const subscribeToEventRoute: FastifyPluginAsyncZod = async (app) => {
   app.post(
     "/subscriptions",
     { schema: subscriptionSchema },
     async (request, reply) => {
       const { name, email } = request.body;
+
+      const { subscriberId } = await subscribeToEvent({ name, email });
+
       return reply
         .status(201)
-        .send({ name, email, message: "Successful request" });
+        .send({ subscriberId, message: "Successful request" });
     }
   );
 };
