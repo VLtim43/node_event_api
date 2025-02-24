@@ -1,7 +1,8 @@
 import { z as zod } from "zod";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { subscribeToEvent } from "../functions/subscribeToEvent";
 import { env } from "../env";
+import { accessInviteLink } from "../functions/accessInviteLink";
+import { redis } from "../redis/client";
 
 const inviteLinkSchema = {
   params: zod.object({
@@ -22,9 +23,13 @@ export const inviteLinkRoute: FastifyPluginAsyncZod = async (app) => {
     async (request, reply) => {
       const { subscriberId } = request.params;
 
+      await accessInviteLink({ subscriberId });
+
       const redirectUrl = new URL(env.WEB_URL);
 
-      return reply.redirect("");
+      redirectUrl.searchParams.set("referrer", subscriberId);
+
+      return reply.redirect(redirectUrl.toString(), 302);
     }
   );
 };

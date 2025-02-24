@@ -10,6 +10,7 @@ import {
 } from "fastify-type-provider-zod";
 import { subscribeToEventRoute } from "./routes/subscribeToEventRoute";
 import { swaggerDocsRoute } from "./routes/swaggerDocsRoute";
+import { inviteLinkRoute } from "./routes/inviteLinkRoute";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -25,6 +26,8 @@ app.listen({ port: env.PORT }).then(() => {
 app.register(subscribeToEventRoute);
 
 app.register(swaggerDocsRoute);
+
+app.register(inviteLinkRoute);
 
 app.get("/cirno", () => {
   return cirno;
