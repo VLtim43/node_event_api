@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="SwaggerIU" />
+    <meta name="description" content="SwaggerUI" />
     <title>SwaggerUI</title>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.4.1/swagger-ui.css" />
 </head>
@@ -15,10 +15,16 @@
     <script src="https://unpkg.com/swagger-ui-dist@4.4.1/swagger-ui-standalone-preset.js" crossorigin></script>
     <script>
         window.onload=() => {
-            window.ui=SwaggerUIBundle({
-                spec: JSON.parse("...dumped definitionJSON..."),
-                dom_id: '#swagger-ui',
-            });
+            const specJSON="...dumped definitionJSON...";
+            try {
+                const parsedSpec=JSON.parse(specJSON);
+                window.ui=SwaggerUIBundle({
+                    spec: parsedSpec,
+                    dom_id: '#swagger-ui',
+                });
+            } catch(error) {
+                console.error("Failed to parse Swagger spec:",error);
+            }
         };
     </script>
 </body>

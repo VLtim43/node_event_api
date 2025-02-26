@@ -1,27 +1,37 @@
 import { FastifyInstance } from "fastify";
-import fs from "fs";
 import path from "path";
+import fs from "fs";
 import YAML from "yaml";
+import fastifyStatic from "@fastify/static";
 
 export const swaggerDocsRoute = async (app: FastifyInstance) => {
-  app.get("/docs", async (_, reply) => {
-    try {
-      const yamlPath = path.join(__dirname, "../docs/swagger.yaml");
-      const yamlData = fs.readFileSync(yamlPath, "utf8");
+  const docsPath = path.join(__dirname, "../docs");
 
-      const htmlPath = path.join(__dirname, "../docs/index.html");
-      let htmlData = fs.readFileSync(htmlPath, "utf-8");
-
-      const definitionJSON = JSON.stringify(YAML.parse(yamlData));
-
-      htmlData = htmlData.replace(
-        '"...dumped definitionJSON..."',
-        JSON.stringify(definitionJSON)
-      );
-
-      reply.type("text/html").send(htmlData);
-    } catch (error) {
-      reply.status(500).send({ error: "File not found or cannot be read" });
-    }
+  // Register fastify-static to serve files from the docs directory
+  app.register(fastifyStatic, {
+    root: docsPath,
+    prefix: "/docs/",
   });
+
+  try {
+    // Load and parse Swagger YAML once at startup
+    const yamlPath = path.join(docsPath, "swagger.yaml");
+    const yamlData = fs.readFileSync(yamlPath, "utf8");
+    const definitionJSON = JSON.stringify(YAML.parse(yamlData));
+
+    const htmlPath = path.join(docsPath, "index.html");
+    let htmlData = fs.readFileSync(htmlPath, "utf-8");
+
+    // Inject Swagger JSON into HTML
+    const injectedHtml = htmlData.replace(
+      '"...dumped definitionJSON..."',
+      JSON.stringify(definitionJSON)
+    );
+
+    app.get("/docs", (_, reply) => {
+      reply.type("text/html").send(injectedHtml);
+    });
+  } catch (error) {
+    console.error("Error loading Swagger docs:", error);
+  }
 };
