@@ -1,21 +1,18 @@
 import { z as zod } from "zod";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { env } from "../env";
-import { accessInviteLink } from "../functions/accessInviteLink";
+import { accessInviteLink } from "../functions/handleInviteAccess";
 
 const schema = {
   params: zod.object({
     subscriberId: zod.string(),
   }),
   response: {
-    201: zod.object({
-      subscriberId: zod.string().optional(),
-      message: zod.string(),
-    }),
+    302: zod.null(),
   },
 };
 
-export const inviteLinkRoute: FastifyPluginAsyncZod = async (app) => {
+export const getInviteLinkRoute: FastifyPluginAsyncZod = async (app) => {
   app.get(
     "/invites/:subscriberId",
     { schema: schema },

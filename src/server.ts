@@ -8,9 +8,12 @@ import {
   validatorCompiler,
   serializerCompiler,
 } from "fastify-type-provider-zod";
-import { subscribeToEventRoute } from "./routes/subscribeToEventRoute";
-import { swaggerDocsRoute } from "./routes/swaggerDocsRoute";
-import { inviteLinkRoute } from "./routes/inviteLinkRoute";
+import { postSubscribeRoute } from "./routes/post-subscribeRoute";
+import { getInviteLinkRoute } from "./routes/get-inviteLinkRoute";
+import { getSubscriberClicksRoute } from "./routes/get-subscriberClicksRoute";
+
+import { getSwaggerDocsRoute } from "./routes/get-swaggerDocsRoute";
+import { getSubscriberInvitesRoute } from "./routes/get-susbcriberInvitesRoute";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -23,11 +26,12 @@ app.listen({ port: env.PORT }).then(() => {
   console.log("Server running ");
 });
 
-app.register(subscribeToEventRoute);
+app.register(postSubscribeRoute);
+app.register(getInviteLinkRoute);
+app.register(getSubscriberClicksRoute);
+app.register(getSubscriberInvitesRoute);
 
-app.register(swaggerDocsRoute);
-
-app.register(inviteLinkRoute);
+app.register(getSwaggerDocsRoute);
 
 app.get("/cirno", () => {
   return cirno;

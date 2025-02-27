@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Subscription API
-  description: API for subscribing to an event
+  description: API for subscribing to an event and handling invite links
   version: 1.0.0
 
 servers:
@@ -41,3 +41,35 @@ paths:
                     nullable: true
                   message:
                     type: string
+        "400":
+          description: Bad request (validation error)
+        "500":
+          description: Internal server error
+
+  /invites/{subscriberId}:
+    get:
+      summary: Access invite link
+      description: Redirects the user based on the invite link
+      parameters:
+        - name: subscriberId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "302":
+          description: Redirects to the invite page with the subscriber ID as a query parameter
+        "400":
+          description: Invalid subscriber ID
+        "500":
+          description: Internal server error
+
+  /docs:
+    get:
+      summary: Swagger UI documentation
+      description: Serves the API documentation UI
+      responses:
+        "200":
+          description: HTML page with the Swagger UI
+        "500":
+          description: Error loading the Swagger UI

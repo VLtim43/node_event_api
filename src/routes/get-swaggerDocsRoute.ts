@@ -4,7 +4,7 @@ import fs from "fs";
 import YAML from "yaml";
 import fastifyStatic from "@fastify/static";
 
-export const swaggerDocsRoute = async (app: FastifyInstance) => {
+export const getSwaggerDocsRoute = async (app: FastifyInstance) => {
   const docsPath = path.join(__dirname, "../docs");
 
   // Register fastify-static to serve files from the docs directory
