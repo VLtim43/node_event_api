@@ -18,3 +18,7 @@ GET http://localhost:3333/subscribers/a9d9604f-e53e-4b1b-83c9-a27106501df6/ranki
 ###
 
 GET http://localhost:3333/subscribers/a9d9604f-e53e-4b1b-83c9-a27106501df6/ranking/invites
+
+###
+
+GET http://localhost:3333/subscribers/a9d9604f-e53e-4b1b-83c9-a27106501df6/ranking/position
