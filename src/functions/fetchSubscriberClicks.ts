@@ -1,12 +1,12 @@
 import { redis } from "../redis/redis-client";
 
-type getSubscriberClicks = {
+type fetchSubscriberClicks = {
   subscriberId: string;
 };
 
-export async function getSubscriberClicks({
+export async function fetchSubscriberClicks({
   subscriberId,
-}: getSubscriberClicks) {
+}: fetchSubscriberClicks) {
   const count = await redis.hget("referral:access-count", subscriberId);
 
   return { count: count ? Number.parseInt(count) : 0 };
