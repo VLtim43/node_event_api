@@ -1,6 +1,6 @@
 import { z as zod } from "zod";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { getSubscriberClicks } from "../functions/fetchSubscriberClicks";
+import { fetchSubscriberClicks } from "../functions/fetchSubscriberClicks";
 
 const schema = {
   params: zod.object({
@@ -19,7 +19,7 @@ export const getSubscriberClicksRoute: FastifyPluginAsyncZod = async (app) => {
     { schema: schema },
     async (request) => {
       const { subscriberId } = request.params;
-      const { count } = await getSubscriberClicks({ subscriberId });
+      const { count } = await fetchSubscriberClicks({ subscriberId });
 
       return { count };
     }
