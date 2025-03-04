@@ -6,11 +6,9 @@ import YAML from "yaml";
 import fastifyStatic from "@fastify/static";
 
 // Define __dirname equivalent in ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export const getSwaggerDocsRoute = async (app: FastifyInstance) => {
-  const docsPath = path.join(__dirname, "../src/docs");
+  const docsPath = path.join(__dirname, "../docs");
 
   // Register fastify-static to serve files from the docs directory
   app.register(fastifyStatic, {
